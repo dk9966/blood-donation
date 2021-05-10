@@ -1,5 +1,7 @@
 import axios from 'axios';
 
-export default axios.create({
-  baseURL: `http://jsonplaceholder.typicode.com/`,
+const instance = axios.create({
+  baseURL: `http://localhost:5000/`,
 });
+
+export default instance;

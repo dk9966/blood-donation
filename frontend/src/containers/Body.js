@@ -10,6 +10,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
 import { useStyles } from '../hooks';
+import axios from '../api';
 
 const Wrapper = styled.section`
   display: flex;
@@ -49,7 +50,10 @@ const Body = () => {
     func(event.target.value);
   };
 
-  const handleAdd = async () => {};
+  const handleAdd = async () => {
+    const response = await axios.post('/', { name, subject, score });
+    console.log(response);
+  };
 
   const handleQuery = async () => {};
 
@@ -82,6 +86,7 @@ const Body = () => {
           variant="contained"
           color="primary"
           disabled={!name || !subject}
+          onClick={handleAdd}
         >
           Add
         </Button>
@@ -117,7 +122,6 @@ const Body = () => {
           className={classes.button}
           variant="contained"
           color="primary"
-          o
           disabled={!queryString}
         >
           Query
