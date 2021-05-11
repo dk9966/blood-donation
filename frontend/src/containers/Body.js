@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 
 import { useStyles } from '../hooks';
 import axios from '../api';
+import { useScoreCard } from '../hooks/useScoreCard';
 
 const Wrapper = styled.section`
   display: flex;
@@ -38,24 +39,46 @@ const ContentPaper = styled(Paper)`
 const Body = () => {
   const classes = useStyles();
 
+  const { messages, addCardMessage, addRegularMessage, addErrorMessage } =
+    useScoreCard();
+
   const [name, setName] = useState('');
   const [subject, setSubject] = useState('');
   const [score, setScore] = useState(0);
 
   const [queryType, setQueryType] = useState('name');
   const [queryString, setQueryString] = useState('');
-  const [messages, setMessages] = useState([]);
 
   const handleChange = (func) => (event) => {
     func(event.target.value);
   };
 
   const handleAdd = async () => {
-    const response = await axios.post('/', { name, subject, score });
-    console.log(response);
+    const {
+      data: { message, card },
+    } = await axios.post('/api/create-card', {
+      name,
+      subject,
+      score,
+    });
+
+    if (!card) addErrorMessage(message);
+    else addCardMessage(message);
   };
 
-  const handleQuery = async () => {};
+  const handleQuery = async () => {
+    const {
+      data: { messages, message },
+    } = await axios.get('/api/query-cards', {
+      params: {
+        type: queryType,
+        queryString,
+      },
+    });
+
+    if (!messages) addErrorMessage(message);
+    else addRegularMessage(...messages);
+  };
 
   return (
     <Wrapper>
@@ -123,13 +146,16 @@ const Body = () => {
           variant="contained"
           color="primary"
           disabled={!queryString}
+          onClick={handleQuery}
         >
           Query
         </Button>
       </Row>
       <ContentPaper variant="outlined">
-        {messages.map((m) => (
-          <Typography variant="body2">{m}</Typography>
+        {messages.map((m, i) => (
+          <Typography variant="body2" key={m + i} style={{ color: m.color }}>
+            {m.message}
+          </Typography>
         ))}
       </ContentPaper>
     </Wrapper>

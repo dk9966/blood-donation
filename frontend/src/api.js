@@ -5,3 +5,5 @@ const instance = axios.create({
 });
 
 export default instance;
+
+// instance.get('/hi').then((data) => console.log(data));
