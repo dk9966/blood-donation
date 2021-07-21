@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 import axios from '../api';
-import { useScoreCard } from '../hooks/useScoreCard';
+import { useProfile } from '../hooks/useProfile';
 
 const Wrapper = styled.section`
   display: flex;
@@ -16,7 +16,7 @@ const Wrapper = styled.section`
 `;
 
 const Header = () => {
-  const { addRegularMessage } = useScoreCard();
+  const { addRegularMessage } = useProfile();
 
   const handleClear = async () => {
     const {
@@ -27,7 +27,7 @@ const Header = () => {
 
   return (
     <Wrapper>
-      <Typography variant="h2">ScoreCard DB</Typography>
+      <Typography variant="h2">Profile DB</Typography>
       <Button variant="contained" color="secondary" onClick={handleClear}>
         Clear
       </Button>

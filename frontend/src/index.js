@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './containers/App';
 import reportWebVitals from './reportWebVitals';
-import { ScoreCardProvider } from './hooks/useScoreCard';
+import { ProfileProvider } from './hooks/useProfile';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ScoreCardProvider>
+    <ProfileProvider>
       <App />
-    </ScoreCardProvider>
+    </ProfileProvider>
   </React.StrictMode>,
   document.getElementById('root'),
 );

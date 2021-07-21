@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import scoreCardRouter from './scoreCard';
+import profileRouter from './profile';
 
 const router = Router();
 
-router.use('/', scoreCardRouter);
+router.use('/', profileRouter);
 
 export default router;

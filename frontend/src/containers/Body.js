@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 
 import { useStyles } from '../hooks';
 import axios from '../api';
-import { useScoreCard } from '../hooks/useScoreCard';
+import { useProfile } from '../hooks/useProfile';
 
 const Wrapper = styled.section`
   display: flex;
@@ -40,11 +40,11 @@ const Body = () => {
   const classes = useStyles();
 
   const { messages, addCardMessage, addRegularMessage, addErrorMessage } =
-    useScoreCard();
+    useProfile();
 
   const [name, setName] = useState('');
-  const [subject, setSubject] = useState('');
-  const [score, setScore] = useState(0);
+  const [email, setEmail] = useState('');
+  const [id, setID] = useState('');
 
   const [queryType, setQueryType] = useState('name');
   const [queryString, setQueryString] = useState('');
@@ -58,8 +58,8 @@ const Body = () => {
       data: { message, card },
     } = await axios.post('/api/create-card', {
       name,
-      subject,
-      score,
+      email,
+      id,
     });
 
     if (!card) addErrorMessage(message);
@@ -92,23 +92,22 @@ const Body = () => {
         />
         <TextField
           className={classes.input}
-          placeholder="Subject"
+          placeholder="Email"
           style={{ width: 240 }}
-          value={subject}
-          onChange={handleChange(setSubject)}
+          value={email}
+          onChange={handleChange(setEmail)}
         />
         <TextField
           className={classes.input}
-          placeholder="Score"
-          value={score}
-          onChange={handleChange(setScore)}
-          type="number"
+          placeholder="ID"
+          value={id}
+          onChange={handleChange(setID)}
         />
         <Button
           className={classes.button}
           variant="contained"
           color="primary"
-          disabled={!name || !subject}
+          disabled={!name || !email || !id}
           onClick={handleAdd}
         >
           Add
@@ -128,9 +127,14 @@ const Body = () => {
                 label="Name"
               />
               <FormControlLabel
-                value="subject"
+                value="email"
                 control={<Radio color="primary" />}
-                label="Subject"
+                label="Email"
+              />
+              <FormControlLabel
+                value="id"
+                control={<Radio color="primary" />}
+                label="ID"
               />
             </RadioGroup>
           </FormControl>
